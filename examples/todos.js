@@ -1,1 +1,1 @@
-export default todos = ['one', 'two', 'three'];
+export default todos = [];

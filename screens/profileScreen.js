@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, TextInput, StyleSheet, Button} from 'react-native'
+import {View, Text, TextInput, StyleSheet, Button, ToastAndroid} from 'react-native'
 import Constants from 'expo-constants'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -48,15 +48,14 @@ export default class profileScreen extends React.Component {
     }
 
     saveChanges = () => {
-        this.props.navigation.dangerouslyGetParent().setParams({name: this.state.username});
-        this.props.navigation.dangerouslyGetParent().setParams({password: this.state.password});
-        this.props.navigation.navigate('AddTodo');
-        this.props.navigation.navigate('firstStack');
+        this.props.navigation.dangerouslyGetParent().setParams({name: this.state.username, password: this.state.password});
+        this.props.navigation.navigate('firstStack', { name: this.state.username });
         this.setState({
             username: '',
             password: '',
             isDis: true
         })
+        ToastAndroid.show('Profile Updated Successfully!', ToastAndroid.SHORT);
 
     }
 

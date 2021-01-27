@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native'
+import { View, TextInput, Button, Text, StyleSheet, ToastAndroid } from 'react-native'
 
 export let todoList = require('../examples/todos');
 
@@ -8,14 +8,15 @@ export default class AddTodoScreen extends React.Component {
         super();
         this.state = {
             newTodo: '',
-            isDis: true
+            isDis: true,
+            id: todoList.default.length
         }
     }
 
     static navigationOptions = ({navigation}) => {
         return {
             headerTitle: () => <Text style={{color: 'brown', fontSize: 20}}>Add a Todo</Text>,
-            headerTintColor: 'brown'
+            headerTintColor: 'brown',
         }
     }
 
@@ -38,14 +39,14 @@ export default class AddTodoScreen extends React.Component {
     addNewTodo = () => {
         todoList.default = [this.state.newTodo, ...todoList.default];
         this.gotoMainPage();
+        ToastAndroid.show('New todo added!', ToastAndroid.SHORT);
     }
-
     gotoMainPage = () => {
-        this.props.navigation.navigate('firstStack');
         this.setState({
             newTodo: '',
-            isDis: true
+            isDis: true,
         })
+        this.props.navigation.navigate('firstStack', {id: ''});
     }
 
     render() {

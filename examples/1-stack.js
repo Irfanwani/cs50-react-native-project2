@@ -8,6 +8,21 @@ function randomNumber() {
 }
 
 class ScreenNameOne extends React.Component {
+    // Disabling android back button
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+        return true;
+    }
+
+
     static navigationOptions = {
         headerTitle: 'First Screen',
         headerTintColor: 'teal',

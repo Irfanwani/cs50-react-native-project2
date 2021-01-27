@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, StyleSheet, Text, Button, TextInput } from 'react-native'
-
+import { View, StyleSheet, Text, Button, TextInput, ToastAndroid } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class Login extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -43,13 +43,20 @@ export default class Login extends React.Component {
 
     visitSite = () => {
         this.props.navigation.navigate('secondSwitch', {name: this.state.username, password: this.state.password});
+        ToastAndroid.show('Logged in successfully!', ToastAndroid.SHORT);
     }
     
     render() {
         return (
             <View style={styles.view}>
-                <TextInput style={styles.input} value={this.state.username} onChangeText={this.takeUsername} placeholder="Username" />
-                <TextInput style={styles.input} value={this.state.password} onChangeText={this.takePassword} placeholder="Password" />
+                <View style={styles.input}>
+                    <Icon name='person' size={25} color='teal' />
+                    <TextInput value={this.state.username} onChangeText={this.takeUsername} placeholder="Username" />
+                </View>
+                <View style={styles.input}>
+                    <Icon name='lock-closed' size={25} color='teal' />
+                    <TextInput value={this.state.password} onChangeText={this.takePassword} placeholder="Password" />
+                </View>
                 <Button title='Login' onPress={this.visitSite} disabled={this.state.isDisabled} />
             </View>
         )
@@ -65,10 +72,11 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        paddingHorizontal: 130,
+        flexDirection: 'row',
+        paddingHorizontal: 100,
         paddingVertical: 5,
         borderRadius: 20,
-        marginBottom: 5,
+        marginBottom: 10,
         borderWidth: 2,
         borderColor: 'teal',
     }
