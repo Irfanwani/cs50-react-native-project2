@@ -3,8 +3,7 @@ import {ScrollView, Text, View, Switch, StyleSheet, TouchableOpacity, ToastAndro
 import CheckBox from '@react-native-community/checkbox'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {todoList} from './AddTodoScreen'
-import RNRestart from 'react-native-restart';
-
+import { FlatList } from 'react-native-gesture-handler'
 
 class Todo extends React.Component {
     constructor(props) {
@@ -20,13 +19,29 @@ class Todo extends React.Component {
     }
 
     changeOn = () => {
-        this.setState(prevState => ({isOn: !prevState.isOn}))
+        this.setState(prevState => ({isOn: !prevState.isOn}), this.changeCount);
+    }
+
+    changeCount = () => {
+        if(this.state.isOn) {
+            this.props.decreaseCheck();
+        }else {
+            this.props.increaseCheck();
+        }
+    }
+
+    changeDelCount = () => {
+        if(!this.state.isOn) {
+            this.props.decreaseCheck();
+        }
     }
 
     removeTodo = () => {
         if(this.state.isChecked) {
             todoList.default.splice(this.props.id, 1);
-            RNRestart.Restart();
+            this.changeDelCount();
+            this.setState(prevState => ({isChecked: !prevState.isChecked, isOn: false}));
+            this.props.update();
             ToastAndroid.show('Todo deleted successfully!', ToastAndroid.SHORT);
         }else {
             ToastAndroid.show('Please check the ckeckbox in the bottom-left corner', ToastAndroid.SHORT);
@@ -39,7 +54,6 @@ class Todo extends React.Component {
                 <Switch value={this.state.isOn} onValueChange={this.changeOn} />
                 <TouchableOpacity style={styles.btn} >                      
                     <Text style={{color: 'teal', fontSize: 25}}>{String(this.props.todoText).toUpperCase()}</Text>
-                    <Text style={{color: 'teal', fontSize: 25}}>{this.props.id}</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <CheckBox value={this.state.isChecked} onValueChange={this.changeCheck} />
@@ -55,6 +69,15 @@ class Todo extends React.Component {
 
 
 export default class MainTab extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isUpdated: false,
+            checkedTodos: todoList.default.length
+        }
+    }
+    
+    
     static navigationOptions = ({navigation}) => {
         return {
             headerTitle: String(navigation.dangerouslyGetParent().dangerouslyGetParent().getParam('name')).toUpperCase(),
@@ -67,6 +90,18 @@ export default class MainTab extends React.Component {
         }
     }
 
+    update = () => this.setState(prevState => ({isUpdated: !prevState.isUpdated}))
+
+    decreaseCheck = () => {
+        this.setState(prevState => ({checkedTodos: prevState.checkedTodos - 1}))
+    }
+    increaseCheck = () => {
+        this.setState(prevState => ({checkedTodos: prevState.checkedTodos + 1}))
+    }
+
+    renderItem = ({item}) => <Todo decreaseCheck={this.decreaseCheck} increaseCheck={this.increaseCheck} update={this.update} todoText={item} id={todoList.default.indexOf(item)} />
+
+
     render() {
         if(todoList.default == false) {
             return (
@@ -78,14 +113,16 @@ export default class MainTab extends React.Component {
         }
 
         return (
-            <View style={{marginTop: 5}}>
-                <ScrollView>
-                        <Text style={styles.text}>
-                            Number of TODOS: {todoList.default.length}
-                        </Text>
-                        <Text style={styles.text}>Number of Checked Todos:{}</Text>
-                        {todoList.default.map(todo => <Todo key={todoList.default.indexOf(todo)} id={todoList.default.indexOf(todo)} todoText={todo} />)}
-                </ScrollView>
+            <View style={{backgroundColor: 'skyblue', flex: 1}}>
+                <FlatList
+                 ListHeaderComponent={() => <View><Text style={styles.text}>Number of Todos: {todoList.default.length}</Text>
+                                            <Text style={styles.text}>Number of UnChecked Todos: {this.state.checkedTodos}</Text></View>
+                                     }
+                 renderItem={this.renderItem}
+                 data={todoList.default}
+                 keyExtractor={item => String(todoList.default.indexOf(item))}
+                 extraData={this.state}
+                />
             </View>
         )
     }
@@ -103,7 +140,8 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginHorizontal: 10, 
         paddingHorizontal: 7, 
-        paddingVertical: 7
+        paddingVertical: 7,
+        backgroundColor: 'white'
     },
     
     text: {

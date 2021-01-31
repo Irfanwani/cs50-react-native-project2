@@ -37,7 +37,7 @@ export default class AddTodoScreen extends React.Component {
     }
 
     addNewTodo = () => {
-        todoList.default = [this.state.newTodo, ...todoList.default];
+        todoList.default = [...todoList.default, this.state.newTodo];
         this.gotoMainPage();
         ToastAndroid.show('New todo added!', ToastAndroid.SHORT);
     }
@@ -46,7 +46,7 @@ export default class AddTodoScreen extends React.Component {
             newTodo: '',
             isDis: true,
         })
-        this.props.navigation.navigate('firstStack', {id: ''});
+        this.props.navigation.navigate('firstStack', {checkedTodos: todoList.default.length});
     }
 
     render() {
