@@ -46,7 +46,7 @@ export default class AddTodoScreen extends React.Component {
             newTodo: '',
             isDis: true,
         })
-        this.props.navigation.navigate('firstStack', {checkedTodos: todoList.default.length});
+        this.props.navigation.navigate('firstStack', {reloadFlag: ''});
     }
 
     render() {

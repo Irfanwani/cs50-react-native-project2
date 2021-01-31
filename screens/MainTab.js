@@ -1,5 +1,5 @@
 import React from 'react'
-import {ScrollView, Text, View, Switch, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
+import { Text, View, Switch, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
 import CheckBox from '@react-native-community/checkbox'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {todoList} from './AddTodoScreen'
@@ -73,10 +73,9 @@ export default class MainTab extends React.Component {
         super(props);
         this.state = {
             isUpdated: false,
-            checkedTodos: todoList.default.length
+            checkedTodos: 0
         }
     }
-    
     
     static navigationOptions = ({navigation}) => {
         return {
