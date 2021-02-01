@@ -75,7 +75,7 @@ export default class profileScreen extends React.Component {
                 </View>
                 <View style={styles.input}>
                     <Icon name='lock-closed' size={25} color='teal' />
-                    <TextInput value={this.state.password} placeholder='Password' onChangeText={this.updatePassword} />
+                    <TextInput value={this.state.password} placeholder='Password' onChangeText={this.updatePassword} secureTextEntry />
                 </View>
 
                 <Button title='Save Changes' onPress={this.saveChanges} disabled={this.state.isDis} />

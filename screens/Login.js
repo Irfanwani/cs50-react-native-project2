@@ -55,7 +55,7 @@ export default class Login extends React.Component {
                 </View>
                 <View style={styles.input}>
                     <Icon name='lock-closed' size={25} color='teal' />
-                    <TextInput value={this.state.password} onChangeText={this.takePassword} placeholder="Password" />
+                    <TextInput value={this.state.password} onChangeText={this.takePassword} placeholder="Password" secureTextEntry />
                 </View>
                 <Button title='Login' onPress={this.visitSite} disabled={this.state.isDisabled} />
             </View>
