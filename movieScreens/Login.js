@@ -1,17 +1,8 @@
 import React from 'react'
-import { View, StyleSheet, Text, Button, TextInput, ToastAndroid } from 'react-native'
+import { View, StyleSheet, Button, TextInput, ToastAndroid } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class Login extends React.Component {
-    static navigationOptions = ({navigation}) => {
-        return {
-            headerTitle: () => `${navigation.getParam('name')}`,
-            headerTintColor: 'teal',
-            headerStyle:  {
-                backgroundColor: 'skyblue',
-            }
-        }
-    }
     constructor() {
         super();
         this.state = {

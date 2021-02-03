@@ -1,2 +1,2 @@
-import Todo from './examples/todo'
-export default Todo;
+import MovieBrowser from './browser/MovieBrowser'
+export default MovieBrowser;
