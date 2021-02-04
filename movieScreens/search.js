@@ -7,7 +7,7 @@ class Movie extends React.Component {
         return (
             <View style={styles.movie}>
                 <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => this.props.navigation.navigate('secondStack', {i: this.props.movie.imdbID})}>
-                    <Image style={{height: 50, width: 50, marginLeft: 5}} source={{uri: this.props.movie.Poster}} />
+                    <Image resizeMode='contain' style={{height: 50, width: 50, marginLeft: 5}} source={{uri: this.props.movie.Poster}} />
                     <View>
                         <Text style={{marginLeft: 5, maxWidth: (Dimensions.get('window').width - 100)}}>{this.props.movie.Title}</Text>
                         <Text style={{marginLeft: 5}}>{this.props.movie.Year}</Text>
@@ -49,7 +49,7 @@ export default class Search extends React.Component {
                 <FlatList
                     ListHeaderComponent={() => <View style={styles.view}>
                                                 <Icon name='search' size={25} color='teal' />
-                                                <TextInput placeholder='Search here...' value={this.state.search} onChangeText={this.getSearch} />
+                                                <TextInput style={{paddingRight: Dimensions.get('window').width/2}} autoFocus={true} placeholder='Search here...' value={this.state.search} onChangeText={this.getSearch} />
                                             </View>} 
                     renderItem={this.renderItem} 
                     data={this.state.result} 
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'teal',
         borderRadius: 20, 
-        paddingRight: 80,
         paddingVertical: 5,
         marginVertical: 10,
         marginHorizontal: 10
