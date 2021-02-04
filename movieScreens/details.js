@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, ScrollView, Text, Image, Dimensions, StyleSheet } from 'react-native'
+import {ActivityIndicator, View, ScrollView, Text, Image, Dimensions, StyleSheet } from 'react-native'
 
 export default class MoreDetails extends React.Component {
     constructor(props) {
@@ -46,7 +46,7 @@ export default class MoreDetails extends React.Component {
             )
         }
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><Text>Loading...</Text></View>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator size='large' color='black' /></View>
         )
     }
 }
