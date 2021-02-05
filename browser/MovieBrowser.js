@@ -39,7 +39,7 @@ const switchNavigator = createSwitchNavigator({
     firstSwitch: Login,
     secondSwitch: tabNavigator
 }, {
-    initialRouteName: 'secondSwitch'
+    initialRouteName: 'firstSwitch'
 }
 )
 
