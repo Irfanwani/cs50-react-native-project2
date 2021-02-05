@@ -29,30 +29,42 @@ export default class Search extends React.Component {
         this.state = {
             search: '',
             result: '',
-            loading: false
+            loading: false,
+            moviesList: ['inception', 'iron man', 'avengers', 'pirates', 'dark']
         }
     }
 
+    newState = {}
+
     getSearch = search => {
-        this.setState({search}, this.result)
+        this.newState.value = search;
+    }
+
+    setSearch = () => {
+        this.setState({search: this.newState.value}, this.result);
+        delete this.newState['value'];
     }
 
     result = async () => {
         this.setState({loading: true})
-        const response = await fetch(`http://www.omdbapi.com/?s=${this.state.search?this.state.search:'inception'}&apikey=3bc90adf`)
+        const response = await fetch(`http://www.omdbapi.com/?s=${this.state.search?this.state.search:this.state.moviesList[Math.floor(Math.random() * 10/2)]}&apikey=3bc90adf`)
         const {Search} = await response.json();
         this.setState({result: Search, loading: false})
     }
 
     initialVisit = async () => {
-        const response = await fetch(`http://www.omdbapi.com/?s='inception'&apikey=3bc90adf`)
+        this.setState({loading: true})
+        const response = await fetch(`http://www.omdbapi.com/?s=${this.state.moviesList[Math.floor(Math.random() * 10/2)]}&apikey=3bc90adf`)
         const {Search} = await response.json();
-        this.setState({result: Search})
+        this.setState({result: Search, loading: false})
     }
 
     componentDidMount() {
         this.initialVisit();
     }
+    
+
+    headerComponent = () => <View style={styles.view}><Icon name='search' size={25} color='teal' /><TextInput style={{paddingRight: Dimensions.get('window').width/2}} placeholder='Search here...' value={this.newState.value} onChangeText={this.getSearch} onEndEditing={this.setSearch} /></View>
 
     renderItem = ({item}) => <Movie movie={item} navigation={this.props.navigation} />
 
@@ -61,10 +73,7 @@ export default class Search extends React.Component {
             return (
                 <View>
                     <FlatList
-                        ListHeaderComponent={() => <View style={styles.view}>
-                                                    <Icon name='search' size={25} color='teal' />
-                                                    <TextInput style={{paddingRight: Dimensions.get('window').width/2}} placeholder='Search here...' value={this.state.search} onChangeText={this.getSearch} autoFocus={true} />
-                                                </View>} 
+                        ListHeaderComponent={this.headerComponent} 
                         renderItem={this.renderItem} 
                         data={this.state.result} 
                         keyExtractor={item => item.imdbID}
