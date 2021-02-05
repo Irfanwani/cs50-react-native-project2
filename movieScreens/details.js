@@ -32,7 +32,7 @@ export default class MoreDetails extends React.Component {
                     <Image resizeMode='contain' style={{height: Dimensions.get('window').height/2, width: Dimensions.get('window').width}} source={{uri: this.state.details.Poster}} />                
                     <Text style={styles.text}>Title: {this.state.details.Title}</Text>
                     <Text style={styles.text}>Language: {this.state.details.Language}</Text>
-                    <Text style={styles.text}>Ratings: {this.state.details.Ratings[0].Value}</Text>
+                    <Text style={styles.text}>Ratings: {this.state.details.Ratings[0]?.Value}</Text>
                     <Text style={styles.text}>Year: {this.state.details.Year}</Text>
                     <Text style={styles.text}>Released On: {this.state.details.Released}</Text>
                     <Text style={styles.text}>Rated: {this.state.details.Rated}</Text>
